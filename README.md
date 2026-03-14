@@ -42,7 +42,7 @@ pip install -e ".[dev]"
 
 ```bash
 # Register with trust tier (controls default filter strictness)
-mcp-shield add pi-brain https://pi.ruv.io/sse --tier community
+mcp-shield add my-server https://mcp.example.com/sse --tier community
 ```
 
 ### 2. Start the shield proxy
@@ -54,7 +54,7 @@ mcp-shield start
 ```
 MCP Shield starting...
 
-  pi-brain → http://127.0.0.1:9800/sse → https://pi.ruv.io/sse (unpinned)
+  my-server → http://127.0.0.1:9800/sse → https://mcp.example.com/sse (unpinned)
 
 Shield active. 1 server(s) proxied.
 ```
@@ -63,10 +63,10 @@ Shield active. 1 server(s) proxied.
 
 ```bash
 # Instead of connecting directly to the MCP server:
-# claude mcp add pi-brain --transport sse https://pi.ruv.io/sse  ← UNPROTECTED
+# claude mcp add my-server --transport sse https://mcp.example.com/sse  ← UNPROTECTED
 
 # Connect through the shield:
-claude mcp add pi-brain --transport sse http://127.0.0.1:9800/sse  ← PROTECTED
+claude mcp add my-server --transport sse http://127.0.0.1:9800/sse  ← PROTECTED
 ```
 
 ### 4. Monitor
@@ -79,7 +79,7 @@ mcp-shield audit
 mcp-shield audit --verdict block
 
 # Filter by server
-mcp-shield audit --server pi-brain
+mcp-shield audit --server my-server
 ```
 
 ## Trust Tiers
@@ -109,7 +109,7 @@ Override any setting in `~/.mcp-shield/policies/<server>.yaml`.
 On first connection through the shield, all tool definitions are snapshotted:
 
 ```
-~/.mcp-shield/locks/pi-brain.lock.json
+~/.mcp-shield/locks/my-server.lock.json
 ```
 
 On every subsequent connection, tool definitions are compared against the snapshot:
@@ -152,7 +152,7 @@ This is analogous to `package-lock.json` or `Cargo.lock` — you pin what you tr
 Each server gets a YAML policy file at `~/.mcp-shield/policies/<name>.yaml`:
 
 ```yaml
-server_name: pi-brain
+server_name: my-server
 trust_tier: community
 filters:
   outbound:
